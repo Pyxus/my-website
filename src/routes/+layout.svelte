@@ -1,58 +1,79 @@
 <script lang="ts">
 	import '../app.postcss';
-	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
+	import {
+		AppShell,
+		AppBar,
+		LightSwitch,
+		initializeStores,
+		Drawer,
+		getDrawerStore
+	} from '@skeletonlabs/skeleton';
+	import 'iconify-icon';
 
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
+	import SocialsButton from './SocialsButton.svelte';
+	import NavList from './NavList.svelte';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+
+	initializeStores();
+
+	const routes = [
+		{ title: 'About', path: '/about' },
+		{ title: 'Blog', path: '/blog' },
+		{ title: 'Projects', path: '/project' },
+		{ title: 'Art', path: '/art' },
+		{ title: 'Contact', path: '/contact' }
+	];
+
+	const drawerStore = getDrawerStore();
+
+	function drawerOpen(): void {
+		drawerStore.open();
+	}
 </script>
 
 <!-- App Shell -->
-<AppShell>
-	<svelte:fragment slot="header">
+<Drawer>
+	<NavList useFlex={false} {routes} />
+	<LightSwitch rounded="rounded-md" />
+	<SocialsButton />
+</Drawer>
+<AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4">
+	<svelte:fragment slot="pageHeader">
 		<!-- App Bar -->
-		<div class="test">
-			<AppBar>
-				<svelte:fragment slot="lead">
-					<strong class="text-xl uppercase">Skeleton</strong>
-				</svelte:fragment>
-				<svelte:fragment slot="trail">
-					<a
-						class="btn btn-sm variant-ghost-surface"
-						href="https://discord.gg/EXqV7W8MtY"
-						target="_blank"
-						rel="noreferrer"
-					>
-						Discord
-					</a>
-					<a
-						class="btn btn-sm variant-ghost-surface"
-						href="https://twitter.com/SkeletonUI"
-						target="_blank"
-						rel="noreferrer"
-					>
-						Twitter
-					</a>
-					<a
-						class="btn btn-sm variant-ghost-surface"
-						href="https://github.com/skeletonlabs/skeleton"
-						target="_blank"
-						rel="noreferrer"
-					>
-						GitHub
-					</a>
-				</svelte:fragment>
-			</AppBar>
-		</div>
+		<nav>
+			<div>
+				<AppBar
+					slotDefault="place-self-center"
+					slotTrail="place-content-end"
+					padding="lg:pl-60 lg:pr-60 pr-4 pl-4 pt-3 pb-3"
+				>
+					<svelte:fragment slot="lead">
+						<div class="flex items-center">
+							<button
+								class="btn mr-4 text-2xl w-auto md:hidden variant-filled"
+								on:click={drawerOpen}
+							>
+								<iconify-icon icon="ci:hamburger-md" />
+							</button>
+							<a href="/"><strong class="text-xl uppercase">Pyxus.dev</strong></a>
+						</div>
+					</svelte:fragment>
+					<NavList {routes} />
+					<svelte:fragment slot="trail">
+						<LightSwitch rounded="rounded-md md:flex hidden" />
+						<SocialsButton container="md:flex hidden" />
+					</svelte:fragment>
+				</AppBar>
+			</div>
+		</nav>
 	</svelte:fragment>
+	<svelte:fragment slot="sidebarLeft"></svelte:fragment>
 	<!-- Page Route Content -->
 	<slot />
 </AppShell>
 
 <style>
-	.test {
-		background-color: aqua;
-		margin: 10rem;
-	}
 </style>
