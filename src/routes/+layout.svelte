@@ -40,7 +40,7 @@
 	<LightSwitch rounded="rounded-md" />
 	<SocialsButton />
 </Drawer>
-<AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4">
+<AppShell >
 	<svelte:fragment slot="pageHeader">
 		<!-- App Bar -->
 		<nav>
