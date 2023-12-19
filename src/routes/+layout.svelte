@@ -22,7 +22,7 @@
 	const routes = [
 		{ title: 'About', path: '/about' },
 		{ title: 'Blog', path: '/blog' },
-		{ title: 'Projects', path: '/project' },
+		{ title: 'Projects', path: '/projects' },
 		{ title: 'Art', path: '/art' },
 		{ title: 'Contact', path: '/contact' }
 	];
@@ -40,7 +40,7 @@
 	<LightSwitch rounded="rounded-md" />
 	<SocialsButton />
 </Drawer>
-<AppShell >
+<AppShell>
 	<svelte:fragment slot="pageHeader">
 		<!-- App Bar -->
 		<nav>
