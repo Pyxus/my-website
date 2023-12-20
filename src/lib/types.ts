@@ -1,5 +1,4 @@
 export interface Post {
-	url: string;
 	visible: boolean;
 	slug: string;
 	title: string;
