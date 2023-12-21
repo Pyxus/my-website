@@ -1,5 +1,5 @@
 <script>
-	import ProjectPost from './ProjectPost.svelte';
+	import ProjectPost from '$lib/components/ProjectPost.svelte';
 </script>
 
 <div class="container flex justify-center items-center mx-auto max-w-5xl">

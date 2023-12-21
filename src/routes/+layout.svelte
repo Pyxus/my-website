@@ -9,13 +9,13 @@
 		getDrawerStore
 	} from '@skeletonlabs/skeleton';
 	import 'iconify-icon';
-	import PageTransitionLayout from './PageTransitionLayout.svelte';
+	import PageTransitionLayout from '$lib/layouts/PageTransitionLayout.svelte';
 
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
-	import SocialsButton from './SocialsButton.svelte';
-	import NavList from './NavList.svelte';
+	import SocialsButton from '$lib/components/SocialsButton.svelte';
+	import NavList from '$lib/components/NavList.svelte';
 
 	export let data;
 

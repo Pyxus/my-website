@@ -1,5 +1,5 @@
 <script lang="ts">
-	import BlogPost from './BlogPost.svelte';
+	import BlogPost from '$lib/components/BlogPost.svelte';
 
 	export let data;
 
