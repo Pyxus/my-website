@@ -20,3 +20,16 @@ collections:
       - { label: 'Body', name: 'body', widget: 'markdown' }
       - { label: 'Categories', name: 'categories', widget: 'list' }
       - { label: 'Tags', name: 'tags', widget: 'list' }
+  - name: 'projects'
+    label: 'Projects'
+    folder: 'src/projects'
+    create: true
+    slug: '{{year}}-{{slug}}'
+    fields:
+      - { label: 'Name', name: 'name', widget: 'string' }
+      - { label: 'Release Year', name: 'release_year', widget: 'number' }
+      - { label: 'Description', name: 'description', widget: 'text' }
+      - { label: 'Thumbnail', name: 'thumbnail', widget: 'image' }
+      - { label: 'Article Link', name: 'article_link', widget: 'string' }
+      - { label: 'Demo Link', name: 'demo_link', widget: 'string' }
+      - { label: 'Source Link', name: 'source_link', widget: 'string' }
