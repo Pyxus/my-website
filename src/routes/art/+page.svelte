@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Lazy from 'svelte-lazy';
+
 	export let data;
 
 	const { art } = data;
@@ -9,7 +11,9 @@
 		{#each art as artwork}
 			<a target="_blank" href={artwork.imgSrc}>
 				<figure class="transition hover:scale-105">
-					<img class="h-auto max-w-full rounded-lg" src={artwork.imgSrc} alt={artwork.imgAlt} />
+					<Lazy fadeOption={{ delay: 10, duration: 400 }}>
+						<img class="h-auto max-w-full rounded-lg" src={artwork.imgSrc} alt={artwork.imgAlt} />
+					</Lazy>
 				</figure>
 			</a>
 		{/each}
