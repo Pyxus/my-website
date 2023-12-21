@@ -15,23 +15,28 @@
 	<img class="rounded-t-lg object-cover" src={headerImageSrc} alt={headerImageAlt} />
 
 	<div class="p-3">
-		<h1 class="h3">{title}</h1>
+		<p class="text-lg font-semibold line-clamp-2">{title}</p>
 		<p class="text-secondary-500 text-sm pb-3">{releaseYear}</p>
 		<p class="font-normal text-gray-700 dark:text-gray-400 pb-3">
 			{description}
 		</p>
 		<div class="flex items-center gap-2 pt-3">
 			{#if articleLink !== ''}
-				<a href={articleLink} class="btn variant-filled">Article</a>
+				<a href={articleLink} target="_blank" class="btn variant-filled">Article</a>
 			{/if}
 
 			{#if demoLink !== ''}
-				<a href={demoLink} class="btn variant-filled">Demo</a>
+				<a href={demoLink} target="_blank" class="btn variant-filled">Demo</a>
 			{/if}
 
 			{#if sourceLink !== ''}
-				<a href={sourceLink} class="btn variant-filled">Demo</a>
+				<a href={sourceLink} target="_blank" class="btn variant-filled">Source</a>
+			{:else}
+				<div class="btn variant-filled invisible">SPACER</div>
 			{/if}
 		</div>
 	</div>
 </div>
+
+<style>
+</style>

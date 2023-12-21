@@ -2,9 +2,28 @@
     {
         "title": "",
         "description": "",
-        "release_year": "",
-        "article_link": "",
-        "demo_link": "",
-        "source_link": ""
+        "releaseYear": "",
+        "thumbnail": "",
+        "articleLink": "",
+        "demoLink": "",
+        "sourceLink": ""
+    },
+    {
+        "title": "Game Recommendation Engine",
+        "description": "Tool to generate game recommendations",
+        "releaseYear": "2023",
+        "thumbnail": "",
+        "articleLink": "",
+        "demoLink": "https://gamerec-frontend-ezekiels-projects-8dac1f64.vercel.app/",
+        "sourceLink": "https://github.com/Pyxus/game-recommendation-engine"
+    },
+    {
+        "title": "Fray - Combat Famework",
+        "description": "Open source Godot combat framework",
+        "releaseYear": "2023",
+        "thumbnail": "",
+        "articleLink": "",
+        "demoLink": "",
+        "sourceLink": "https://github.com/Pyxus/fray"
     }
 ]

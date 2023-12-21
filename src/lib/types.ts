@@ -8,3 +8,12 @@ export interface Post {
 	categories: string[];
 	tags: string[];
 }
+
+export interface Project {
+	title: string;
+	description: string;
+	releaseYear: string;
+	articleLink: string;
+	demoLink: string;
+	sourceLink: string;
+}
