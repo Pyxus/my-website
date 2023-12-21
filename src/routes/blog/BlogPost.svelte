@@ -9,10 +9,10 @@
 </script>
 
 <article class="pb-16 pt-8 hover:brightness-110 transition ease-in-out duration-300">
-	<a {href} class="">
+	<a {href}>
 		<div>
 			<figure>
-				<img class="h-auto max-w-full object-cover rounded-lg" src={imgSrc} alt={imgAlt} />
+				<img class="max-w-full object-cover rounded-lg w-full h-96" src={imgSrc} alt={imgAlt} />
 				<figcaption class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
 					{imgCaption}
 				</figcaption>
@@ -21,7 +21,7 @@
 			<p class="pt-4 font-light">{summary}</p>
 			<p class="pt-4 font-extralight dark:text-surface-300 text-surface-400 w-full">{date}</p>
 			<aside class="float-right variant-filled p-1 rounded-md flex items-center gap-1">
-				<p class="pl-1 font-mono">Read more</p>
+				<span class="pl-1 font-mono">Read more</span>
 				<iconify-icon class="text-md pr-1" icon="mingcute:arrow-up-fill" rotate="90deg" />
 			</aside>
 		</div>
