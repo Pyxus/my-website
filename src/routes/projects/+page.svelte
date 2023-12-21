@@ -4,7 +4,6 @@
 	export let data;
 
 	const { projects } = data;
-	console.log(projects);
 </script>
 
 <div class="container flex justify-center items-center mx-auto max-w-5xl">
