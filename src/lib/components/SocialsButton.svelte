@@ -18,7 +18,7 @@
 		class="card p-2 shadow-xl border-t-8 border-t-primary-500 columns-1"
 		data-popup="popupFeatured"
 	>
-		<div class=""><b>Follow Me</b></div>
+		<div class="text-center"><b>Follow Me</b></div>
 		<div class="grid">
 			<a class="btn" href="https://github.com/Pyxus/" target="_blank" rel="noreferrer">
 				<iconify-icon style="font-size: 1.5rem;" icon="brandico:github" />
