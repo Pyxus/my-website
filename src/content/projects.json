@@ -25,5 +25,14 @@
         "articleLink": "",
         "demoLink": "",
         "sourceLink": "https://github.com/Pyxus/fray"
+    },
+    {
+        "title": "My Website",
+        "description": "Personal website created to practice web dev",
+        "releaseYear": "2023",
+        "thumbnail": "",
+        "articleLink": "",
+        "demoLink": "",
+        "sourceLink": "https://github.com/Pyxus/my-website"
     }
 ]
