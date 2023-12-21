@@ -44,7 +44,11 @@
 	<LightSwitch rounded="rounded-md" />
 	<SocialsButton />
 </Drawer>
-<AppShell scrollbarGutter="stable" regionPage="relative" slotPageHeader="sticky top-0 z-10">
+<AppShell
+	scrollbarGutter="stable"
+	regionPage="relative scroll-smooth"
+	slotPageHeader="sticky top-0 z-10"
+>
 	<svelte:fragment slot="header">
 		<nav>
 			<AppBar
