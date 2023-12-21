@@ -2,7 +2,7 @@ import type { Post } from '$lib/types';
 import { json } from '@sveltejs/kit';
 
 async function getPosts() {
-	const postFilePaths = import.meta.glob('/src/posts/*.md', { eager: true });
+	const postFilePaths = import.meta.glob('/src/content/posts/*.md', { eager: true });
 	let posts: Post[] = [];
 
 	for (const path in postFilePaths) {
