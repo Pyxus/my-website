@@ -18,7 +18,7 @@
 				</figcaption>
 			</figure>
 			<h2 class="pt-4 h2">{title}</h2>
-			<p class="pt-4 font-light">{summary}</p>
+			<p class="pt-4 h-16 line-clamp-2 font-light">{summary}</p>
 			<p class="pt-4 font-extralight dark:text-surface-300 text-surface-400 w-full">{date}</p>
 			<aside class="float-right variant-filled p-1 rounded-md flex items-center gap-1">
 				<span class="pl-1 font-mono">Read more</span>
