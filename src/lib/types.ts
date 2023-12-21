@@ -17,3 +17,12 @@ export interface Project {
 	demoLink: string;
 	sourceLink: string;
 }
+
+export interface Artwork {
+	title: string;
+	description: string;
+	year: string;
+	tags: string[];
+	imgSrc: string;
+	imgAlt: string;
+}
