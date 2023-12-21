@@ -7,7 +7,7 @@ export async function GET() {
 
 	projects = projects.filter((project) => project.title !== '');
 
-	projects.sort(
+	projects = projects.sort(
 		(first, second) =>
 			new Date(second.releaseYear).getTime() - new Date(first.releaseYear).getTime()
 	);
