@@ -16,13 +16,10 @@
 	<div class="w-full h-full">
 		<h1 class="h1 pb-4">About Me</h1>
 		<p class="pb-4">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dictum et enim eget ultrices.
-			Vestibulum suscipit in libero a pharetra. Vivamus ac lectus bibendum, bibendum eros ac, congue
-			lectus. Pellentesque volutpat leo accumsan tortor gravida tincidunt. Duis porta viverra arcu
-			quis pellentesque. Nulla in accumsan libero. Mauris rutrum nunc non quam ullamcorper
-			pellentesque. Maecenas diam nisl, tempus id posuere vitae, accumsan quis elit. Morbi eu
-			iaculis massa, sit amet condimentum risus. Donec at pulvinar erat, sed tempus nunc. Mauris et
-			leo quam.
+			Hey, I'm Ezekiel, a.k.a Pyxus. I'm a computer science graduate with an interest in game
+			development. When I'm not programming you'll find me either doing digital art or playing video
+			games. My main motivtation for creating this site is to share my projects and creations with
+			those interested while practicing my web development skills in the process.
 		</p>
 		<TabGroup>
 			<Tab bind:group={tabSet} name="tab1" value={0}>Skills</Tab>
