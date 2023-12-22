@@ -15,6 +15,7 @@
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import SocialsButton from '$lib/components/SocialsButton.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 	import NavList from '$lib/components/NavList.svelte';
 
 	export let data;
@@ -38,17 +39,12 @@
 	}
 </script>
 
-<!-- App Shell -->
 <Drawer>
 	<NavList useFlex={false} {routes} />
 	<LightSwitch rounded="rounded-md" />
 	<SocialsButton />
 </Drawer>
-<AppShell
-	scrollbarGutter="stable"
-	regionPage="relative scroll-smooth"
-	slotPageHeader="sticky top-0 z-10"
->
+<AppShell scrollbarGutter="stable" regionPage="relative scroll-smooth">
 	<svelte:fragment slot="header">
 		<nav>
 			<AppBar
@@ -72,11 +68,12 @@
 			</AppBar>
 		</nav>
 	</svelte:fragment>
-	<svelte:fragment slot="sidebarLeft"></svelte:fragment>
+
 	<PageTransitionLayout url={data.url}>
 		<slot />
 	</PageTransitionLayout>
-</AppShell>
 
-<style>
-</style>
+	<svelte:fragment slot="pageFooter">
+		<Footer />
+	</svelte:fragment>
+</AppShell>
