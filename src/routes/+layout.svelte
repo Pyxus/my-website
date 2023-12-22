@@ -10,6 +10,7 @@
 	} from '@skeletonlabs/skeleton';
 	import 'iconify-icon';
 	import PageTransitionLayout from '$lib/layouts/PageTransitionLayout.svelte';
+	import { title } from '$lib/config';
 
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
@@ -56,7 +57,7 @@
 						<button class="btn mr-4 text-2xl w-auto md:hidden variant-filled" on:click={drawerOpen}>
 							<iconify-icon icon="ci:hamburger-md" />
 						</button>
-						<a href="/"><strong class="text-xl uppercase">Pyxus.dev</strong></a>
+						<a href="/"><strong class="text-xl uppercase">{title}</strong></a>
 					</div>
 				</svelte:fragment>
 				<NavList {routes} />

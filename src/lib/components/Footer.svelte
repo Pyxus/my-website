@@ -1,6 +1,10 @@
+<script lang="ts">
+	import { title } from '$lib/config';
+</script>
+
 <footer class="m-auto p-1 bg-surface-100-800-token">
 	<section class="flex flex-col items-center">
-		<p class="">Pyxus.dev &copy {new Date().getFullYear()}</p>
+		<p class="">{title} &copy {new Date().getFullYear()}</p>
 		<ul>
 			<li>
 				<a
