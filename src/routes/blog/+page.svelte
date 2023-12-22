@@ -1,5 +1,6 @@
 <script lang="ts">
 	import BlogPost from '$lib/components/BlogPost.svelte';
+	import Lazy from 'svelte-lazy';
 
 	export let data;
 
@@ -17,12 +18,14 @@
 
 <div class="container justify-center items-center mx-auto max-w-2xl">
 	{#each data.posts as post}
-		<BlogPost
-			title={post.title}
-			summary={post.description}
-			date={formatDate(post.date)}
-			href={`${data.url}/${[post.slug]}`}
-			imgSrc={post.thumbnail}
-		/>
+		<Lazy height={500}>
+			<BlogPost
+				title={post.title}
+				summary={post.description}
+				date={formatDate(post.date)}
+				href={`${data.url}/${[post.slug]}`}
+				imgSrc={post.thumbnail}
+			/>
+		</Lazy>
 	{/each}
 </div>
