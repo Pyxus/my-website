@@ -14,10 +14,7 @@
 	<a {href}>
 		<div>
 			<figure>
-				<Lazy>
-					<img class="max-w-full object-cover rounded-lg w-full h-96" src={imgSrc} alt={imgAlt} />
-				</Lazy>
-
+				<img class="max-w-full object-cover rounded-lg w-full h-96" src={imgSrc} alt={imgAlt} />
 				<figcaption class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
 					{imgCaption}
 				</figcaption>
