@@ -10,16 +10,28 @@
 </script>
 
 <div
-	class="w-full max-w-sm border rounded-lg shadow dark:variant-filled-surface dark:border-gray-700"
+	class="flex flex-col h-full w-full max-w-sm border rounded-lg shadow dark:variant-filled-surface dark:border-gray-700"
 >
-	<img class="rounded-t-lg object-cover" src={headerImageSrc} alt={headerImageAlt} />
+	{#if headerImageSrc}
+		<img
+			class="max-w-full object-cover rounded-t-lg w-full h-32"
+			src={headerImageSrc}
+			alt={headerImageAlt}
+		/>
+	{:else}
+		<div class="w-full bg-surface-100-800-token flex items-center rounded-t-md h-32 justify-center">
+			<iconify-icon class="text-8xl" icon="ic:outline-photo" />
+		</div>
+	{/if}
 
-	<div class="p-3">
-		<p class="text-lg font-semibold line-clamp-2">{title}</p>
-		<p class="text-secondary-500 text-sm pb-3">{releaseYear}</p>
-		<p class="font-normal text-gray-700 dark:text-gray-400 pb-3">
-			{description}
-		</p>
+	<div class="flex-1 p-3 flex flex-col">
+		<div class="flex-1">
+			<p class="text-lg font-semibold line-clamp-2">{title}</p>
+			<p class="text-secondary-500 text-sm pb-3">{releaseYear}</p>
+			<p class="font-normal text-gray-700 dark:text-gray-400 pb-3 line-clamp-2 h-12">
+				{description}
+			</p>
+		</div>
 		<div class="flex items-center gap-2 pt-3">
 			{#if articleLink !== ''}
 				<a href={articleLink} target="_blank" class="btn variant-filled">Article</a>
