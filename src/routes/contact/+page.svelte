@@ -1,15 +1,22 @@
-<form data-netlify netlify-honeypot name="contact" method="POST" action="/success">
-	<p class="hidden">
-		<label>
-			Don’t fill this out if you’re human: <input name="bot-field" />
-		</label>
+<form name="contact" method="POST" data-netlify="true">
+	<p>
+		<label>Your Name: <input type="text" name="name" /></label>
 	</p>
-	<input type="hidden" name="form-name" value="contact" />
-	<label for="name">Name</label>
-	<input id="name" type="text" name="name" />
-	<label for="email">Email</label>
-	<input id="email" type="email" name="email" required />
-	<label for="contact">Message</label>
-	<textarea id="contact" wrap="soft" name="contact" required></textarea>
-	<button class="bg-slate-700 text-white w-1/2" type="submit">Submit</button>
+	<p>
+		<label>Your Email: <input type="email" name="email" /></label>
+	</p>
+	<p>
+		<label
+			>Your Role: <select name="role[]" multiple>
+				<option value="leader">Leader</option>
+				<option value="follower">Follower</option>
+			</select></label
+		>
+	</p>
+	<p>
+		<label>Message: <textarea name="message"></textarea></label>
+	</p>
+	<p>
+		<button type="submit">Send</button>
+	</p>
 </form>
