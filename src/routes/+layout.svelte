@@ -28,8 +28,7 @@
 	const routes = [
 		{ title: 'Blog', path: '/blog' },
 		{ title: 'Projects', path: '/projects' },
-		{ title: 'Art', path: '/art' },
-		{ title: 'Contact', path: '/contact' }
+		{ title: 'Art', path: '/art' }
 	];
 
 	const drawerStore = getDrawerStore();
