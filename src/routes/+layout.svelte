@@ -25,7 +25,6 @@
 	initializeStores();
 
 	const routes = [
-		{ title: 'About', path: '/about' },
 		{ title: 'Blog', path: '/blog' },
 		{ title: 'Projects', path: '/projects' },
 		{ title: 'Art', path: '/art' },
