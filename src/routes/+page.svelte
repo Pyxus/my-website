@@ -1,7 +1,12 @@
 <script lang="ts">
 	import { Tab, TabGroup } from '@skeletonlabs/skeleton';
+	import { title } from '$lib/config';
 	let tabSet: number = 0;
 </script>
+
+<svelte:head>
+	<title>{title}</title>
+</svelte:head>
 
 <div class="container md:flex pt-8 h-full mx-auto max-w-5xl gap-8 pl-8 pr-8">
 	<div class="md:w-5/6 w-3/6 pb-8">
@@ -60,7 +65,7 @@
 						</li>
 						<li class="pb-3">
 							<h2 class="text-secondary-400-500-token h5">Drawing Tablet</h2>
-							<p>XP-Pen Artist 22R</p>
+							<p>XP-Pen Artist 22R Pro</p>
 						</li>
 						<li class="pb-3">
 							<h2 class="text-secondary-400-500-token h5">Microphone</h2>
@@ -78,7 +83,7 @@
 							<p>Bachelor's in Computer Science</p>
 						</li>
 						<li class="pb-3">
-							<h2 class="text-secondary-400-500-token h5">Art</h2>
+							<h2 class="text-secondary-400-500-token h5">Digital Art</h2>
 							<p>Self taught</p>
 						</li>
 					</ul>

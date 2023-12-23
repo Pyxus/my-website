@@ -1,6 +1,7 @@
 <script lang="ts">
 	import BlogPost from '$lib/components/BlogPost.svelte';
 	import Lazy from 'svelte-lazy';
+	import { title } from '$lib/config';
 
 	export let data;
 
@@ -15,6 +16,10 @@
 		return formattedDate.replace(/\//g, '.');
 	}
 </script>
+
+<svelte:head>
+	<title>{`Blog | ${title}`}</title>
+</svelte:head>
 
 <div class="mx-auto max-w-2xl">
 	{#each data.posts as post}

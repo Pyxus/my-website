@@ -1,11 +1,16 @@
 <script lang="ts">
 	import Lazy from 'svelte-lazy';
 	import PlaceholderImage from '$lib/components/PlaceholderImage.svelte';
+	import { title } from '$lib/config';
 
 	export let data;
 
 	const { art } = data;
 </script>
+
+<svelte:head>
+	<title>{`Art | ${title}`}</title>
+</svelte:head>
 
 <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
 	{#each art as artwork}
