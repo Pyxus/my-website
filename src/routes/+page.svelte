@@ -93,18 +93,18 @@
 	</div>
 </div>
 
-<style>
+<style lang="postcss">
 	.glow-element {
 		box-shadow: 0 0 20px rgba(0, 0, 255, 0.7);
-		animation: glow 2s infinite alternate;
+		animation: glow 5s infinite alternate;
 	}
 
 	@keyframes glow {
 		0% {
-			box-shadow: 0 0 20px rgba(70, 133, 175, 0.7);
+			box-shadow: 0 0 20px rgba(203, 28, 67, 0.9);
 		}
 		100% {
-			box-shadow: 0 0 40px rgba(70, 133, 175, 0.9);
+			box-shadow: 0 0 40px rgba(70, 133, 175, 0.7);
 		}
 	}
 </style>
