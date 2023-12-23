@@ -3,17 +3,19 @@
 	let tabSet: number = 0;
 </script>
 
-<div class="container flex pt-4 justify-center items-center h-full mx-auto max-w-5xl gap-8">
-	<div
-		class="glow-element justify-center w-11/12 overflow-hidden bg-gradient-to-br variant-gradient-primary-secondary rounded-lg"
-	>
-		<img
-			src="/images/uploads/pfp-transparent.png"
-			alt="Your Head"
-			class="relative scale-[1.8] translate-y-16"
-		/>
+<div class="container md:flex pt-8 h-full mx-auto max-w-5xl gap-8 pl-8 pr-8">
+	<div class="md:w-5/6 w-3/6 pb-8">
+		<div
+			class="glow-element justify-center w-full overflow-hidden bg-gradient-to-br variant-gradient-primary-secondary rounded-lg"
+		>
+			<img
+				src="/images/uploads/pfp-transparent.png"
+				alt="Your Head"
+				class="relative scale-[1.8] translate-y-8"
+			/>
+		</div>
 	</div>
-	<div class="w-full h-full">
+	<div class="">
 		<h1 class="h1 pb-4">About Me</h1>
 		<p class="pb-4">
 			Hey, I'm Ezekiel, a.k.a Pyxus. I'm a computer science graduate with an interest in game
