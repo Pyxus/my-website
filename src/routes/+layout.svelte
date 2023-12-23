@@ -10,6 +10,7 @@
 	} from '@skeletonlabs/skeleton';
 	import 'iconify-icon';
 	import PageTransitionLayout from '$lib/layouts/PageTransitionLayout.svelte';
+	import Centeredlayout from '$lib/layouts/CenteredLayout.svelte';
 	import { title } from '$lib/config';
 
 	// Floating UI for Popups
@@ -69,7 +70,9 @@
 	</svelte:fragment>
 
 	<PageTransitionLayout url={data.url}>
-		<slot />
+		<Centeredlayout>
+			<slot />
+		</Centeredlayout>
 	</PageTransitionLayout>
 
 	<svelte:fragment slot="pageFooter">

@@ -6,7 +6,7 @@
 <div class="container md:flex pt-8 h-full mx-auto max-w-5xl gap-8 pl-8 pr-8">
 	<div class="md:w-5/6 w-3/6 pb-8">
 		<div
-			class="glow-element justify-center w-full overflow-hidden bg-gradient-to-br variant-gradient-primary-secondary rounded-lg"
+			class="glow-element justify-center w-full overflow-hidden bg-gradient-to-br variant-gradient-primary-secondary rounded-xl"
 		>
 			<img
 				src="/images/uploads/pfp-transparent.png"
@@ -90,8 +90,8 @@
 
 <style>
 	.glow-element {
-		box-shadow: 0 0 20px rgba(0, 0, 255, 0.7); /* Adjust the color and opacity as needed */
-		animation: glow 2s infinite alternate; /* Adjust the animation duration as needed */
+		box-shadow: 0 0 20px rgba(0, 0, 255, 0.7);
+		animation: glow 2s infinite alternate;
 	}
 
 	@keyframes glow {
