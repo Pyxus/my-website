@@ -16,7 +16,7 @@
 	}
 </script>
 
-<div class="container justify-center items-center mx-auto max-w-2xl">
+<div class="container justify-center items-center mx-auto max-w-2xl p-4">
 	{#each data.posts as post}
 		<Lazy height={500}>
 			<BlogPost
