@@ -5,17 +5,17 @@
 		AppBar,
 		LightSwitch,
 		initializeStores,
+		storePopup,
 		Drawer,
-		getDrawerStore
+		getDrawerStore,
+		Modal
 	} from '@skeletonlabs/skeleton';
+
 	import 'iconify-icon';
+	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import PageTransitionLayout from '$lib/layouts/PageTransitionLayout.svelte';
 	import Centeredlayout from '$lib/layouts/CenteredLayout.svelte';
 	import { title } from '$lib/config';
-
-	// Floating UI for Popups
-	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { storePopup } from '@skeletonlabs/skeleton';
 	import SocialsButton from '$lib/components/SocialsButton.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import NavList from '$lib/components/NavList.svelte';
@@ -55,6 +55,7 @@
 		<SocialsButton />
 	</div>
 </Drawer>
+<Modal width="w-7/12" />
 <AppShell scrollbarGutter="stable" regionPage="relative scroll-smooth">
 	<svelte:fragment slot="header">
 		<nav>

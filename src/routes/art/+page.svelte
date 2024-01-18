@@ -1,11 +1,27 @@
 <script lang="ts">
 	import Lazy from 'svelte-lazy';
+	import {
+		type ModalSettings,
+		type ModalComponent,
+		type ModalStore,
+		getModalStore
+	} from '@skeletonlabs/skeleton';
 	import PlaceholderImage from '$lib/components/PlaceholderImage.svelte';
 	import { title } from '$lib/config';
 
 	export let data;
 
 	const { art } = data;
+	const modalStore = getModalStore();
+
+	const triggerArtModal = (title: string, desc: string, image: string) => {
+		modalStore.trigger({
+			type: 'alert',
+			title,
+			body: desc,
+			image
+		});
+	};
 </script>
 
 <svelte:head>
@@ -21,8 +37,13 @@
 			keep="true"
 			fadeOption={{ duration: 400 }}
 		>
-			<a target="_blank" href={artwork.src} class="h-full">
-				<figure class="relative overflow-hidden group col-span-2">
+			<button
+				class="h-full w-full cursor-zoom-in"
+				on:click={() => {
+					triggerArtModal(artwork.meta.title, artwork.meta.description, artwork.src);
+				}}
+			>
+				<figure class="relative overflow-hidden group">
 					<img
 						class="object-cover transition-transform group-hover:scale-110 w-full md:h-[25rem] rounded-lg duration-300"
 						src={artwork.src}
@@ -37,7 +58,7 @@
 						{artwork.meta.title}
 					</figcaption>
 				</figure>
-			</a>
+			</button>
 		</Lazy>
 	{/each}
 </section>
