@@ -12,13 +12,19 @@
 	<title>{`Art | ${title}`}</title>
 </svelte:head>
 
-<section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<section class="grid grid-cols-2 grid-flow-dense md:grid-cols-4 gap-4">
 	{#each art as artwork}
-		<Lazy height={400} placeholder={PlaceholderImage} keep="true" fadeOption={{ duration: 400 }}>
-			<a target="_blank" href={artwork.src}>
+		<Lazy
+			height={400}
+			class={`${artwork.meta.size === 'lg' ? 'col-span-2' : 'col-span-1'}`}
+			placeholder={PlaceholderImage}
+			keep="true"
+			fadeOption={{ duration: 400 }}
+		>
+			<a target="_blank" href={artwork.src} class="h-full">
 				<figure class="relative overflow-hidden group col-span-2">
 					<img
-						class="transition-transform group-hover:scale-110 h-auto max-w-full rounded-lg duration-300"
+						class="object-cover transition-transform group-hover:scale-110 w-full md:h-[25rem] rounded-lg duration-300"
 						src={artwork.src}
 						alt={artwork.meta.alt}
 					/>

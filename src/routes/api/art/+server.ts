@@ -1,4 +1,4 @@
-import type { Artwork, Artwork_, ArtMeta } from '$lib/types';
+import type { Artwork, ArtMeta } from '$lib/types';
 import { json } from '@sveltejs/kit';
 import fs from 'fs';
 import path from 'path';
@@ -51,6 +51,7 @@ function createArtWorkFromFile(
 					title: imagePath,
 					description: '',
 					tags: [],
+					size: 'md',
 					alt: 'Drawing'
 				};
 
