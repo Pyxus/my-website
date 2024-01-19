@@ -55,7 +55,7 @@
 		<SocialsButton />
 	</div>
 </Drawer>
-<Modal width="w-7/12" />
+<Modal width="w-full md:w-7/12" height="h-full md:h-auto" />
 <AppShell scrollbarGutter="stable" regionPage="relative scroll-smooth">
 	<svelte:fragment slot="header">
 		<nav>
