@@ -6,7 +6,7 @@
 	export let data;
 
 	function formatDate(date: string): string {
-		const currentDate = new Date();
+		const currentDate = new Date(date);
 		const formattedDate = currentDate.toLocaleDateString('en-US', {
 			year: 'numeric',
 			month: '2-digit',
