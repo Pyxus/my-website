@@ -14,6 +14,7 @@ export interface Project {
 	description: string;
 	releaseYear: string;
 	articleLink: string;
+	technologies: string[];
 	demoLink: string;
 	sourceLink: string;
 }

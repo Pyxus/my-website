@@ -4,35 +4,49 @@
         "description": "",
         "releaseYear": "",
         "thumbnail": "",
+        "technologies": [],
         "articleLink": "",
         "demoLink": "",
         "sourceLink": ""
-    },
-    {
-        "title": "Game Recommendation Engine",
-        "description": "Tool to generate game recommendations",
-        "releaseYear": "2023",
-        "thumbnail": "",
-        "articleLink": "",
-        "demoLink": "https://gamerec-frontend-ezekiels-projects-8dac1f64.vercel.app/",
-        "sourceLink": "https://github.com/Pyxus/game-recommendation-engine"
     },
     {
         "title": "Fray - Combat Famework",
         "description": "Open source Godot combat framework",
         "releaseYear": "2023",
         "thumbnail": "/images/uploads/fray_banner.gif",
+        "technologies": ["GDScript", "Godot"],
         "articleLink": "",
         "demoLink": "",
         "sourceLink": "https://github.com/Pyxus/fray"
+    },
+    {
+        "title": "Game Recommendation Engine",
+        "description": "Tool to generate game recommendations",
+        "releaseYear": "2023",
+        "thumbnail": "",
+        "technologies": ["C#", "ASP.NET", "React", "TypeScript"],
+        "articleLink": "",
+        "demoLink": "https://gamerec-frontend-ezekiels-projects-8dac1f64.vercel.app/",
+        "sourceLink": "https://github.com/Pyxus/game-recommendation-engine"
     },
     {
         "title": "Portfolio Website",
         "description": "Personal website created to practice web dev",
         "releaseYear": "2023",
         "thumbnail": "",
+        "technologies": ["Svelte", "TypeScript"],
         "articleLink": "",
         "demoLink": "/",
+        "sourceLink": "https://github.com/Pyxus/my-website"
+    },
+    {
+        "title": "Chip8 Emulator and Debugger",
+        "description": "Comprehensive chip8 emulator",
+        "releaseYear": "2022",
+        "thumbnail": "",
+        "technologies": ["C#", "SFML"],
+        "articleLink": "",
+        "demoLink": "",
         "sourceLink": "https://github.com/Pyxus/my-website"
     }
 ]
