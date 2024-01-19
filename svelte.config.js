@@ -6,7 +6,7 @@ import remarkUnwrapImages from 'remark-unwrap-images'
 import rehypeSlug from 'rehype-slug';
 
 const mdsvexOptions = {
-	extensions: ['.md'],
+	extensions: ['.svx'],
 	remarkPlugins: [remarkUnwrapImages],
 	rehypePlugins: [rehypeSlug],
 	highlight: {
@@ -23,7 +23,7 @@ const mdsvexOptions = {
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	extensions: ['.svelte', '.md'],
+	extensions: ['.svelte', '.svx'],
 	preprocess: [ vitePreprocess(), mdsvex(mdsvexOptions)],
 	vitePlugin: {
 		inspector: true,

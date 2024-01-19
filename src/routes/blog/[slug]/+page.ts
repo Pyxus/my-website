@@ -4,7 +4,7 @@ export const prerender = 'auto';
 
 export async function load({ params }) {
 	try {
-		const post = await import(`../../../content/posts/${params.slug}.md`);
+		const post = await import(`../../../content/posts/${params.slug}.svx`);
 
 		return {
 			content: post.default,
