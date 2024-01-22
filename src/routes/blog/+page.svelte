@@ -26,8 +26,8 @@
 		<Lazy height={500}>
 			<BlogPost
 				title={post.title}
-				summary={post.description}
-				date={formatDate(post.date)}
+				summary={post.summary}
+				date={formatDate(post.datePosted)}
 				href={`${data.url}/${[post.slug]}`}
 				imgSrc={post.thumbnail}
 			/>

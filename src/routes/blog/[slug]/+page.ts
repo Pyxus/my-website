@@ -6,11 +6,16 @@ export async function load({ params }) {
 	try {
 		const post = await import(`../../../content/posts/${params.slug}.svx`);
 
+		if (post.metadata.isDraft) {
+			return;
+		}
+
 		return {
 			content: post.default,
 			title: post.metadata.title,
-			description: post.metadata.description,
-			date: post.metadata.date,
+			summary: post.metadata.summary,
+			datePosted: post.metadata.datePosted,
+			dateModified: post.metadata.dateModified,
 			thumbnail: post.metadata.thumbnail
 		};
 	} catch (e) {

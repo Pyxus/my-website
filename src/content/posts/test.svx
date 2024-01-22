@@ -1,12 +1,13 @@
 ---
-layout: blog
-visible: true
-title: Test
-description: test
-date: 2023-12-19
-thumbnail: /images/uploads/pfp-transparent.png
+isDraft: false
+title: 'New Blog'
+datePosted: 2023-12-19
+dateModified: 2023-12-19
 categories: []
 tags: []
+summary: ''
+thumbnail: ''
+layout: blog
 ---
 
 ## Heading 1

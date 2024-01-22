@@ -1,6 +1,4 @@
 <script lang="ts">
-	import Lazy from 'svelte-lazy';
-
 	export let title: string;
 	export let summary: string;
 	export let imgSrc: string;
@@ -13,12 +11,15 @@
 <article class="pb-16 pt-8 hover:brightness-110 transition ease-in-out duration-300">
 	<a {href}>
 		<div>
-			<figure>
-				<img class="max-w-full object-cover rounded-lg w-full h-96" src={imgSrc} alt={imgAlt} />
-				<figcaption class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-					{imgCaption}
-				</figcaption>
-			</figure>
+			{#if imgSrc !== ''}
+				<figure>
+					<img class="max-w-full object-cover rounded-lg w-full h-96" src={imgSrc} alt={imgAlt} />
+					<figcaption class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
+						{imgCaption}
+					</figcaption>
+				</figure>
+			{/if}
+
 			<h2 class="pt-4 h2">{title}</h2>
 			<p class="pt-4 h-16 line-clamp-2 font-light">{summary}</p>
 			<p class="pt-4 font-extralight dark:text-surface-300 text-surface-400 w-full">{date}</p>

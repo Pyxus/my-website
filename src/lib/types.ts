@@ -1,12 +1,13 @@
 export interface Post {
-	visible: boolean;
-	slug: string;
+	isDraft: boolean;
 	title: string;
-	description: string;
-	date: string;
+	datePosted: string;
+	dateModified: string;
+	summary: string;
 	thumbnail: string;
 	categories: string[];
 	tags: string[];
+	slug: string;
 }
 
 export interface Project {

@@ -4,8 +4,13 @@
 
 	export let data;
 
-	const { title, date, content, thumbnail } = data;
-	const formattedDate = new Date(date).toLocaleDateString('en-US', {
+	const { title, content, thumbnail } = data;
+	const datePosted = new Date(data.datePosted).toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric'
+	});
+	const dateModified = new Date(data.dateModified).toLocaleDateString('en-US', {
 		year: 'numeric',
 		month: 'long',
 		day: 'numeric'
@@ -23,9 +28,14 @@
 		<TableOfContents class="w-3/12 sticky h-0 top-10" regionLead="text-xs" regionList="text-sm" />
 		<article class="w-full" use:tocCrawler={{ mode: 'generate' }}>
 			<h1>{title}</h1>
-			<time datetime={date}>{formattedDate}</time>
+			<time datetime={datePosted}>{datePosted}</time>
+			{#if datePosted !== dateModified}
+				<time datetime={datePosted}>Last mofidied on {dateModified}</time>
+			{/if}
 			<hr class="mt-5 mb-5" />
-			<img src={thumbnail} alt="" class="w-full object-cover h-96 rounded-sm pt-5 pb-5" />
+			{#if thumbnail}
+				<img src={thumbnail} alt="" class="w-full object-cover h-96 rounded-sm pt-5 pb-5" />
+			{/if}
 			<svelte:component this={content} />
 		</article>
 	</section>
