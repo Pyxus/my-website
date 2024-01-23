@@ -22,10 +22,10 @@ export async function GET({ fetch }) {
 						(post) => `
 						<item>
 							<title>${post.title}</title>
-							<description>${post.description}</description>
+							<description>${post.summary}</description>
 							<link>${config.url}/blog/${post.slug}</link>
 							<guid isPermaLink="true">${config.url}/${post.slug}</guid>
-							<pubDate>${new Date(post.date).toUTCString()}</pubDate>
+							<pubDate>${new Date(post.datePosted).toUTCString()}</pubDate>
 						</item>
 					`
 					)
