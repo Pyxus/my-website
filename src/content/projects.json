@@ -47,6 +47,6 @@
         "technologies": ["C#", "SFML"],
         "articleLink": "",
         "demoLink": "",
-        "sourceLink": "https://github.com/Pyxus/my-website"
+        "sourceLink": "https://github.com/Pyxus/chip8-emulator"
     }
 ]
