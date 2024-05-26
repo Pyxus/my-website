@@ -1,0 +1,272 @@
+---
+isDraft: false
+title: 'My Approach To Multiplayer In Godot'
+datePosted: 2024-5-26
+dateModified: 2024-5-26
+categories: []
+tags: []
+summary: ''
+thumbnail: ''
+layout: blog
+---
+
+# WIP Article
+
+## Introduction
+
+This is less of a tutorial or guide and more just a breakdown of my approach to multiplayer in my current project. 
+I'm still learning the ropes of multiplayer development, so please consider my statements and design choices as exploratory. 
+This breakdown assumes you are new to multiplayer development but have a solid understanding of Godot 4.0 and programming in general.
+Also keep in mind i'm developing a card game so my networking requirements may be simpler than what you're working on.
+
+My goal with this is just to share insights I've gained while working on my current project.
+
+## Initializing The Network
+
+Quick tutorial, To enable networking for your project, assign a `MultiplayerPeer` to the `MultiplayerAPI`. 
+Since all nodes in your scene tree share the same `MultiplayerAPI` reference, 
+setting the peer from any node activates networking throughout the entire game.
+
+```gdscript
+# node.gd
+
+func host_game(port: int) -> void:
+	var peer := ENetMultiplayerPeer.new()
+	
+	match peer.create_server(port):
+		OK:
+			multiplayer.multiplayer_peer = peer
+
+func join_game(address: String, port: int) -> void:
+	var peer := ENetMultiplayerPeer.new()
+	
+	match peer.create_client(address, port):
+		OK:
+			multiplayer.multiplayer_peer = peer
+
+```
+
+<br/>
+
+For more information see [Official Docs](https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html#initializing-the-network)
+
+## What Are RPCs?
+
+Another quick tutorial! Remote Procedure Calls (RPC) are functions that can be executed remotely on other peers.
+Basically an RPC call says "Call this on that client" while 
+abstracting away the details of how that call is made.
+This is my main means of communicating between peers and mainly boils down to a 
+easy way to send packets around.
+
+To define an RPC function, simply use the `@rpc` annotation before the function definition. 
+Then, to invoke an RPC call, you can use either `func.rpc()` to call it on all peers 
+or `func.rpc_id()` to call it on a specific peer.
+
+__Here are a few things to keep in mind:__
+
+- RPCs typically support primitive arguments such as 
+String, int, float, and dictionaries/arrays of primitive types.
+
+- If you need to transmit an entire object across the network, first reconsider. 
+If you still want to send it you'll have to serialize it some how.
+
+- When using static typing, note that Arrays are transmitted across the network as `Array[Variant]`. 
+If your RPC function expects a typed array, this may cause an error. 
+
+To circumvent this, utilize `PackedArray` types, which can be serialized.
+- RPCs rely on both the sending and receiving nodes having the same node path.
+
+For further details, refer to the [Official Documentation](https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html#remote-procedure-calls).
+
+## MultiplayerSpawner and MultiplayerSynchronizer
+
+I have not yet needed to use either of nodes since they seem more useful for real-time games.
+But as a quick introduction to them based on my understanding.
+The purpose of the spawner is to replicate spawnable nodes to other peers while the synchronizer
+mirrors the state between peers.
+
+Only the peer with authority over the spawner and synchronizer can replicate / synchronize using it.
+This is typically the server.
+
+## Sharing Objects Across The Network
+
+At this stage, I haven't delved into optimizing my packet sizes, but as a general rule, 
+I aim to send only the minimum necessary information across the network. 
+Intuitively, this approach seems reasonable to me. 
+However, if I absolutely need to share objects across the network, I've adopted two approaches:
+
+### Database Approach
+
+When an item exists on every client and remains identical across all clients, 
+I prefer referencing that item by a unique ID. 
+For instance, in my project, I utilize resources to represent cards, 
+and all clients have these cards saved locally. 
+Instead of transmitting all the information about a card when sharing it with other clients, 
+I simply share the card's ID. The receiving client can then load the corresponding card using this ID.
+
+To manage these IDs, I employ a `CardDB` singleton. 
+This singleton includes a `register_card` method, 
+allowing me to manually associate each card with a specific ID. 
+Subsequently, the `CardDB` is used to serialize and deserialize cards as necessary.
+
+The big advantage of this is approach is you only have to transmit an int per card 
+when sharing with peers. However, the downside is it is not very flexible.
+
+### Dictionary SerDe Approach
+
+When I need to transmit the complete state of an object, or at least its relevant parts, I implement two methods on it:
+
+1. **from_deserialize**: This static method takes the dictionary data as an argument and returns a new instance of the object based on that data.
+
+2. **serialize**: This method returns a dictionary representing the current state of the object.
+
+```gdscript
+# object.gd
+class_name Obj
+
+var health: int = 1
+var name: String = ""
+
+static func from_deserialize(data: Dictionary) -> Obj:
+	var obj := Obj.new()
+	obj.health = data.health
+	obj.name = data.name
+	return obj
+	
+
+func serialize() -> Dictionary:
+	# It looks weird but this is valid.
+	# I just don't like JSON style dicts
+	return {
+		health=health,
+		name=name
+	}
+
+```
+
+<br/>
+
+
+This approach is pretty much the opposite of the previous one when it comes to pros and cons. 
+It's super flexible, but you end up sending more data across the network than you really need to, 
+especially since dictionary keys tag along for the ride. 
+One workaround could be serializing the data into an array, 
+where each index lines up with a field, cutting down on unnecessary info. 
+But, full disclosure, I haven't tried this out myself... yet. 
+Seems like a bit of a premature optimization at this point.
+
+## Managing Scene Tree Parity
+
+Godot's high-level multiplayer relies on the scene tree and requires 
+node paths to be identical on both client and server. 
+Because of this, you need to carefully consider your game's tree structure when designing your network.
+
+To simplify managing tree parity, I opted to create a `Network` singleton. 
+This singleton houses the server's state and acts as the communication hub within the multiplayer API. 
+It contains four main components: server state, services, RPC request functions, and RPC notify functions.
+
+1. **Server State**: I store server state in my `ServerScope`, which I'll explain later.
+
+2. **Services**: Currently, I don't have any services implemented, but an example could be a ChatService node responsible for handling messaging between players.
+
+3. **RPC Request Functions**: These functions are called by the client but executed remotely on the server.
+
+4. **RPC Notify Functions**: These functions are called by the server but executed remotely on the client.
+
+
+```gdscript
+# network.gd
+signal notified_lobby_updated(duelist_names: PackedStringArray, spectator_names: PackedStringArray)
+
+var player_name: String = ""
+var server: ServerScope = null
+
+@rpc("any_peer", "call_local")
+func request_join_lobby() -> void:
+	var sender_id := multiplayer.get_remote_sender_id()
+	server.members[sender_id] = Player.new(sender_id, player_name)
+	_notify_lobby_updated.rpc(server.get_duelist_names(), server.get_spectator_names())
+
+@rpc("authority", "call_local")
+func _notify_lobby_updated(duelist_names: PackedStringArray, spectator_names: PackedStringArray) -> void:
+	notified_lobby_updated.emit(duelist_names, spectator_names)
+
+```
+
+<br/>
+
+So far, this approach has worked well for my project. 
+However, synchronizing the state of a card game is much simpler compared to other types of games. 
+For example, if you're developing a [bat-themed platformer](https://store.steampowered.com/app/2429230/Megabat/), 
+it might make more sense for the entire game world to be replicated between clients.
+
+## Separation Of Client And Server
+
+In a P2P (Peer-to-Peer) setup like mine, the server is technically a client as well. 
+Consequently, a lot of server-only logic coexists with client-only logic. 
+Personally, I find this arrangement makes the code harder to follow, 
+so I aim to separate client and server logic as much as possible, 
+treating the code as if I'm writing for a dedicated server. 
+This approach also involves treating the client-side of the server as just another client whenever feasible.
+
+To facilitate this separation, I introduce a `ServerScope` inner-class on my networked objects. 
+This scope is only instantiated on the server. As a convention, I consider anything defined on a networked object as client-only, 
+while anything within the networked object's server scope is designated as server-only.
+
+```gdscript
+# network.gd
+
+# Client-Only
+var player_name: String = ""
+
+# Server-Only
+var server: ServerScope = null
+
+func _ready() -> void:
+	if multiplayer.is_server():
+		server = ServerScope.new(self)
+
+class ServerScope:
+	# Network is a singleton and the singleton Ref can't be used as a type
+	const Network_T = preload("network.gd")
+	
+	var members: Dictionary = {} # <peer_id: int, Player>
+
+	var _network: Network_T = null
+
+	func _init(network: Network_T) -> void:
+		assert(network.is_multiplayer_server())
+		_network = network
+```
+<br/>
+
+An added advantage of this approach is that it makes it more difficult to accidentally share information that only the server should know. 
+If I attempt to write code that should only run on the server, I'd immediately realize it because the client would crash trying to access the 
+null server scope object.
+
+For instance, in the card game I'm developing, only the server should have knowledge of each player's deck contents. 
+While cheating isn't a significant concern for me, I've made it a habit to only share with the client the information they need to know
+just for good practice.
+
+
+## Playing With Players Outside Your Network
+
+For development or LAN play, I stick with the built-in `ENetMultiplayerPeer`. 
+However, if you want to play with people outside your local network, you'll need to port forward. 
+It's a bit inconvenient for players, but there are a couple of solutions.
+
+1. **UPNP**: You can use UPNP to automatically forward a port. 
+Keep in mind, though, that it relies on the host's router supporting it, so it's not always reliable.
+
+2. **Relay Server**: Another option is to use a relay server. 
+The host still acts as the primary server, but communication is routed through a dedicated relay server hosted by the developer. 
+This eliminates the need for port forwarding on the host's end. 
+However, I haven't delved into implementing one myself. 
+Steam provides a relay server that you can utilize using the [GodotSteam MultiplayerPeer Build](https://github.com/GodotSteam/GodotSteam/releases/tag/v4.8-mp).
+
+Earlier, I mentioned using the `ENetMultiplayerPeer` for development and that's because I find it quicker to test. 
+With Godot, you can run multiple instances of the game on the same machine as a debug option. 
+Testing with GodotSteam, on the other hand, requires two separate computers. 
+Don't worry, transitioning to GodotSteam later should be smooth since you mainly just need to swap out the peers. 
+The Steam peer is an extension of ENet. If my project ever gets on Steam, 
+I'd probably utilize both ENet and Steam peers: one for direct connections and the other for general online multiplayer.

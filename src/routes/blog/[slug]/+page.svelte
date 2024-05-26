@@ -23,7 +23,7 @@
 	<meta property="og:title" content={title} />
 </svelte:head>
 
-<div class="container flex justify-center items-center mx-auto max-w-5xl">
+<div class="container flex justify-center items-center mx-auto">
 	<section class="flex gap-10 pt-8 w-5/6 pb-10">
 		<TableOfContents class="w-3/12 sticky h-0 top-10" regionLead="text-xs" regionList="text-sm" />
 		<article class="w-full" use:tocCrawler={{ mode: 'generate' }}>
