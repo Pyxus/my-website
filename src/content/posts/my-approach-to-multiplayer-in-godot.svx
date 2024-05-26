@@ -14,14 +14,18 @@ layout: blog
 
 This is less of a tutorial or guide and more just a breakdown of my approach to multiplayer in my current project. 
 I'm still learning the ropes of multiplayer development, so please consider my statements and design choices as exploratory. 
-This breakdown assumes you are new to multiplayer development but have a solid understanding of Godot 4.0 and programming in general.
-Also keep in mind i'm developing a card game so my networking requirements may be simpler than what you're working on.
+I assume you're somewhat new to multiplayer development but have a solid understanding of Godot 4.0 and programming in general.
+Also keep in mind I'm developing a card game so my networking requirements may be simpler than what you're working on.
+My goal with this is mainly to share insights I've gained while working on my current project.
 
-My goal with this is just to share insights I've gained while working on my current project.
+## Getting Started With Multiplayer
 
-## Initializing The Network
+Like I said this is not intended to be a tutorial but here is some quick information and 
+resources that will hopefully help you get started.
 
-Quick tutorial, To enable networking for your project, assign a `MultiplayerPeer` to the `MultiplayerAPI`. 
+### Initializing The Network
+
+To enable networking for your project, assign a `MultiplayerPeer` to the `MultiplayerAPI`. 
 Since all nodes in your scene tree share the same `MultiplayerAPI` reference, 
 setting the peer from any node activates networking throughout the entire game.
 
@@ -48,40 +52,41 @@ func join_game(address: String, port: int) -> void:
 
 For more information see [Official Docs](https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html#initializing-the-network)
 
-## What Are RPCs?
+### MultiplayerSpawner and MultiplayerSynchronizer
 
-Another quick tutorial! Remote Procedure Calls (RPC) are functions that can be executed remotely on other peers.
-Basically an RPC call says "Call this on that client" while 
-abstracting away the details of how that call is made.
-This is my main means of communicating between peers and mainly boils down to a 
-easy way to send packets around.
+I haven't needed to use either of these nodes yet since they seem more useful for real-time games. 
+However, based on my understanding, here's a quick introduction:
 
-To define an RPC function, simply use the `@rpc` annotation before the function definition. 
-Then, to invoke an RPC call, you can use either `func.rpc()` to call it on all peers 
-or `func.rpc_id()` to call it on a specific peer.
+The MultiplayerSpawner replicates spawnable nodes so they appear for all players, 
+ensuring everyone sees the same new objects in the game. 
+Meanwhile, the MultiplayerSynchronizer mirrors the state of existing objects between peers, 
+keeping everything consistent across all players' screens.
+
+Only the peer with authority over the spawner and synchronizer can replicate or synchronize using them, 
+which is typically the server.
+
+### What Are RPCs?
+
+Remote Procedure Calls (RPCs) allow functions to be executed on different machines across the network.
+This abstraction simplifies communication between peers by replacing complex packet exchanges with
+straightforward function calls. Basically, an RPC says, "Execute this function on that remote client."
+
+To define an RPC function, use the `@rpc` annotation before the function definition. 
+To invoke an RPC call, you can use `func.rpc()` to call it on all peers or `func.rpc_id()` 
+to call it on a specific peer.
 
 __Here are a few things to keep in mind:__
 
-- RPCs typically support primitive arguments such as 
-String, int, float, and dictionaries/arrays of primitive types.
-- If you need to transmit an entire object across the network, first reconsider. 
-If you still want to send it you'll have to serialize it some how.
+- RPCs only support primitive arguments such as strings, integers, floats, and dictionaries or arrays of these primitive types.
+- If you need to transmit an entire object across the network, reconsider if it's necessary... 
+If it is, you'll need to serialize it somehow.
 - When using static typing, note that Arrays are transmitted across the network as `Array[Variant]`. 
 If your RPC function expects a typed array, this may cause an error. 
 To circumvent this, utilize `PackedArray` types, which can be serialized.
 - RPCs rely on both the sending and receiving nodes having the same node path.
+The type of the nodes on the path are irrelevant, but the node names and rpc method signature must match.
 
 For further details, refer to the [Official Documentation](https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html#remote-procedure-calls).
-
-## MultiplayerSpawner and MultiplayerSynchronizer
-
-I have not yet needed to use either of nodes since they seem more useful for real-time games.
-But as a quick introduction to them based on my understanding.
-The purpose of the spawner is to replicate spawnable nodes to other peers while the synchronizer
-mirrors the state between peers.
-
-Only the peer with authority over the spawner and synchronizer can replicate / synchronize using it.
-This is typically the server.
 
 ## Sharing Objects Across The Network
 
@@ -140,7 +145,6 @@ func serialize() -> Dictionary:
 
 <br/>
 
-
 This approach is pretty much the opposite of the previous one when it comes to pros and cons. 
 It's super flexible, but you end up sending more data across the network than you really need to, 
 especially since dictionary keys tag along for the ride. 
@@ -148,48 +152,6 @@ One workaround could be serializing the data into an array,
 where each index lines up with a field, cutting down on unnecessary info. 
 But, full disclosure, I haven't tried this out myself... yet. 
 Seems like a bit of a premature optimization at this point.
-
-## Managing Scene Tree Parity
-
-Godot's high-level multiplayer relies on the scene tree and requires 
-node paths to be identical on both client and server. 
-Because of this, you need to carefully consider your game's tree structure when designing your network.
-
-To simplify managing tree parity, I opted to create a `Network` singleton. 
-This singleton houses the server's state and acts as the communication hub within the multiplayer API. 
-It contains four main components: server state, services, RPC request functions, and RPC notify functions.
-
-1. **Server State**: I store server state in my `ServerScope`, which I'll explain later.
-2. **Services**: Currently, I don't have any services implemented, but an example could be a ChatService node responsible for handling messaging between players.
-3. **RPC Request Functions**: These functions are called by the client but executed remotely on the server.
-4. **RPC Notify Functions**: These functions are called by the server but executed remotely on the client.
-
-
-```gdscript
-# network.gd
-signal notified_lobby_updated(duelist_names: PackedStringArray, spectator_names: PackedStringArray)
-
-var player_name: String = ""
-var server: ServerScope = null
-
-@rpc("any_peer", "call_local")
-func request_join_lobby() -> void:
-	var sender_id := multiplayer.get_remote_sender_id()
-	server.members[sender_id] = Player.new(sender_id, player_name)
-	_notify_lobby_updated.rpc(server.get_duelist_names(), server.get_spectator_names())
-
-@rpc("authority", "call_local")
-func _notify_lobby_updated(duelist_names: PackedStringArray, spectator_names: PackedStringArray) -> void:
-	notified_lobby_updated.emit(duelist_names, spectator_names)
-
-```
-
-<br/>
-
-So far, this approach has worked well for my project. 
-However, synchronizing the state of a card game is much simpler compared to other types of games. 
-For example, if you're developing a [bat-themed platformer](https://store.steampowered.com/app/2429230/Megabat/), 
-it might make more sense for the entire game world to be replicated between clients.
 
 ## Separation Of Client And Server
 
@@ -239,6 +201,55 @@ For instance, in the card game I'm developing, only the server should have knowl
 While cheating isn't a significant concern for me, I've made it a habit to only share with the client the information they need to know
 just for good practice.
 
+## Managing Scene Tree Parity
+
+Godot's high-level multiplayer relies on the scene tree and requires 
+node paths to be identical on both client and server. 
+Because of this, you need to carefully consider your game's tree structure when designing your network.
+
+To simplify managing tree parity, I opted to create a `Network` singleton. 
+This singleton houses the server's state and acts as the communication hub within the multiplayer API. 
+It contains four main components: server state, services, RPC request functions, and RPC notify functions.
+
+1. **Server State**: I store server state in my `ServerScope`.
+2. **Services**: Currently, I don't have any services implemented, but an example could be a ChatService node responsible for handling messaging between players.
+3. **RPC Request Functions**: These functions are called by the client but executed remotely on the server. 
+I typically annotate them with `@rpc("any_peer", "call_local")`. The `any_peer` 
+config allows clients to make remote calls to the server, and `call_local` enables 
+the function to be called on the 'client-side' of the server.
+4. **RPC Notify Functions**: These functions are called by the server but executed remotely on the client. 
+Since they are only called by the server, I typically prefix them with an underscore to indicate 
+they're private. I annoate them with `@rpc("authority", "call_local")`. The `authority` config 
+ensures only the server (the authority) can call these functions remotely. The `call_local` config
+exits for the same reason descriped in the request section.
+
+*Do note request and notify are just a convention I use, there is nothing special about these RPC functions.*
+
+```gdscript
+# network.gd
+signal notified_lobby_updated(duelist_names: PackedStringArray, spectator_names: PackedStringArray)
+
+var player_name: String = ""
+var server: ServerScope = null
+
+@rpc("any_peer", "call_local")
+func request_join_lobby() -> void:
+	var sender_id := multiplayer.get_remote_sender_id()
+	server.members[sender_id] = Player.new(sender_id, player_name)
+	_notify_lobby_updated.rpc(server.get_duelist_names(), server.get_spectator_names())
+
+@rpc("authority", "call_local")
+func _notify_lobby_updated(duelist_names: PackedStringArray, spectator_names: PackedStringArray) -> void:
+	notified_lobby_updated.emit(duelist_names, spectator_names)
+
+```
+
+<br/>
+
+So far, this approach has worked well for my project. 
+However, synchronizing the state of a card game is much simpler compared to other types of games. 
+For example, if you're developing a [bat-themed platformer](https://store.steampowered.com/app/2429230/Megabat/), 
+it might make more sense for the entire game world to be replicated between clients.
 
 ## Playing With Players Outside Your Network
 
