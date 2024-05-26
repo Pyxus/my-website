@@ -21,12 +21,13 @@ const mdsvexOptions = {
 			'ol': 'list-decimal list-inside pb-4',
 			'ul': 'list-disc list-inside pb-4',
 			'li': 'pb-3',
+			'code': 'font-mono rounded variant-ghost-surface pl-1 pr-1 pb-0.5 pt-0.5'
 		}],
 	],
 	highlight: {
 		highlighter: async (code, lang = 'text') => {
 			const highlighter = await shiki.getHighlighter({
-				theme: 'poimandres', //TODO: Change theme, also look into shiki twoslash
+				theme: 'one-dark-pro', //TODO: Change theme, also look into shiki twoslash
 			})
 
 			const html = escapeSvelte(highlighter.codeToHtml(code, { lang }))
