@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { TableOfContents, tocCrawler } from '@skeletonlabs/skeleton';
-	import './page.postcss';
 
 	export let data;
 
@@ -27,7 +26,7 @@
 	<section class="flex gap-10 pt-8 w-5/6 pb-10">
 		<TableOfContents class="w-3/12 sticky h-0 top-10" regionLead="text-xs" regionList="text-sm" />
 		<article class="w-full" use:tocCrawler={{ mode: 'generate' }}>
-			<h1>{title}</h1>
+			<h1 class="h1 pb-4">{title}</h1>
 			<time datetime={datePosted}>{datePosted}</time>
 			{#if datePosted !== dateModified}
 				<time datetime={datePosted}>Last mofidied on {dateModified}</time>
@@ -36,6 +35,12 @@
 			{#if thumbnail}
 				<img src={thumbnail} alt="" class="w-full object-cover h-96 rounded-sm pt-5 pb-5" />
 			{/if}
+			<!-- Not sure why but without this ul and ol from the .svx won't be styled correclty -->
+			<ul class="list-decimal list-inside">
+			</ul>
+			<ol class="list-disc list-inside">
+			</ol>
+			<!-- -->
 			<svelte:component this={content} />
 		</article>
 	</section>

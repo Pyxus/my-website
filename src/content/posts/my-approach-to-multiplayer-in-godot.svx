@@ -10,8 +10,6 @@ thumbnail: ''
 layout: blog
 ---
 
-# WIP Article
-
 ## Introduction
 
 This is less of a tutorial or guide and more just a breakdown of my approach to multiplayer in my current project. 
@@ -66,13 +64,10 @@ __Here are a few things to keep in mind:__
 
 - RPCs typically support primitive arguments such as 
 String, int, float, and dictionaries/arrays of primitive types.
-
 - If you need to transmit an entire object across the network, first reconsider. 
 If you still want to send it you'll have to serialize it some how.
-
 - When using static typing, note that Arrays are transmitted across the network as `Array[Variant]`. 
 If your RPC function expects a typed array, this may cause an error. 
-
 To circumvent this, utilize `PackedArray` types, which can be serialized.
 - RPCs rely on both the sending and receiving nodes having the same node path.
 
@@ -117,7 +112,6 @@ when sharing with peers. However, the downside is it is not very flexible.
 When I need to transmit the complete state of an object, or at least its relevant parts, I implement two methods on it:
 
 1. **from_deserialize**: This static method takes the dictionary data as an argument and returns a new instance of the object based on that data.
-
 2. **serialize**: This method returns a dictionary representing the current state of the object.
 
 ```gdscript
@@ -166,11 +160,8 @@ This singleton houses the server's state and acts as the communication hub withi
 It contains four main components: server state, services, RPC request functions, and RPC notify functions.
 
 1. **Server State**: I store server state in my `ServerScope`, which I'll explain later.
-
 2. **Services**: Currently, I don't have any services implemented, but an example could be a ChatService node responsible for handling messaging between players.
-
 3. **RPC Request Functions**: These functions are called by the client but executed remotely on the server.
-
 4. **RPC Notify Functions**: These functions are called by the server but executed remotely on the client.
 
 
@@ -257,7 +248,6 @@ It's a bit inconvenient for players, but there are a couple of solutions.
 
 1. **UPNP**: You can use UPNP to automatically forward a port. 
 Keep in mind, though, that it relies on the host's router supporting it, so it's not always reliable.
-
 2. **Relay Server**: Another option is to use a relay server. 
 The host still acts as the primary server, but communication is routed through a dedicated relay server hosted by the developer. 
 This eliminates the need for port forwarding on the host's end. 
